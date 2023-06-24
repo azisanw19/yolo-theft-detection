@@ -1,7 +1,5 @@
 # Theft Detection
 
----
-
 ## Steps
 
 The dataset used in this article is the thief and guest dataset. First, the image data of thieves and guests is collected.
