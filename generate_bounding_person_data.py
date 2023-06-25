@@ -83,7 +83,7 @@ def main():
 
             if temp_x is not None:
                 path_image.append(image_path_file)
-                x.append(temp_h)
+                x.append(temp_x)
                 y.append(temp_y)
                 w.append(temp_w)
                 h.append(temp_h)
