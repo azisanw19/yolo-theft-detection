@@ -29,11 +29,11 @@ def initialize_mobile_net_detection():
 
 def bounding_person(model, img):
     """
-    Segmentation person
+    Bounding person
 
     :param model: model mobile net
     :param img: image
-    :return: image with person segmentation
+    :return: image with person bounding
     """
     class_index, confidence, box = model.detect(img)
     boundary = []
