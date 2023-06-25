@@ -48,8 +48,8 @@ def segmentation_person(model, img):
 def main():
     """
 
-    :param x: x axis of image
-    :param y: y axis of image
+    :param x: x-axis of image
+    :param y: y-axis of image
     :param w: weight (the width of the person from the x axis)
     :param h: height (the height of the person from the y axis)
 
