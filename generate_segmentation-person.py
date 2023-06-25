@@ -7,6 +7,7 @@ __copyright__   = "Copyright 2023, Canwar"
 
 import os
 import cv2
+import pandas as pd
 
 
 def initialize_mobile_net_detection():
@@ -36,22 +37,32 @@ def segmentation_person(model, img):
     :return: image with person segmentation
     """
     class_index, confidence, box = model.detect(img)
+    boundary = None, None, None, None
 
     for index, confi, boxes in zip(class_index, confidence, box):
         if index == 1:
-            cv2.rectangle(img, boxes, color=(0, 255, 0), thickness=2)
-    return img
+            boundary = boxes
+    return boundary
 
 
 def main():
+    """
+
+    :param x: x axis of image
+    :param y: y axis of image
+    :param w: weight (the width of the person from the x axis)
+    :param h: height (the height of the person from the y axis)
+
+    :return:
+    """
     model = initialize_mobile_net_detection()
 
     path = os.path.join("dataset")
 
-    is_exist_folder_segmentation = os.path.exists(os.path.join(path, "segmentation"))
-    if not is_exist_folder_segmentation:
-        os.makedirs("dataset/segmentation/theft")
-        os.makedirs("dataset/segmentation/guest")
+    is_exist_folder_bounding = os.path.exists(os.path.join(path, "bounding"))
+    if not is_exist_folder_bounding:
+        os.makedirs("dataset/bounding/theft")
+        os.makedirs("dataset/bounding/guest")
 
     print(path)
 
@@ -59,16 +70,44 @@ def main():
         image_path = os.path.join(path, "original")
         image_path = os.path.join(image_path, folder)
 
-        save_path = os.path.join(path, "segmentation")
+        save_path = os.path.join(path, "bounding")
         save_path = os.path.join(save_path, folder)
 
-        for image in os.listdir(image_path):
-            img = cv2.imread(os.path.join(image_path, image))
-            img = segmentation_person(model, img)
-            cv2.imwrite(os.path.join(save_path, image), img)
-            print(f"[INFO]\r: Success saving image to {save_path.join(image)}")
+        path_image = []
+        x = []
+        y = []
+        w = []
+        h = []
+        target_label = []
 
-    print(path)
+        for image in os.listdir(image_path):
+            image_path_file = os.path.join(image_path, image)
+            img = cv2.imread(image_path_file)
+
+            (temp_x, temp_y, temp_w, temp_h) = segmentation_person(model, img)
+
+            if temp_x is not None:
+                path_image.append(image_path_file)
+                x.append(temp_h)
+                y.append(temp_y)
+                w.append(temp_w)
+                h.append(temp_h)
+                target_label.append(folder)
+                print("[INFO]: Success saving image to {}".format(image_path_file))
+            else:
+                print("[INFO]: Failed saving image to {}".format(image_path_file))
+
+        data_image = pd.DataFrame({
+            "path": path_image,
+            "x": x,
+            "y": y,
+            "w": w,
+            "h": h,
+            "label": target_label
+        })
+
+        data_image.to_csv(f"{save_path}/{folder}.csv", index=True)
+        print("[INFO]: Saving CSV to {}/{}.csv".format(save_path, folder))
 
 
 if __name__ == '__main__':
