@@ -88,9 +88,9 @@ def main():
                 w.append(temp_w)
                 h.append(temp_h)
                 target_label.append(folder)
-                print("[INFO]: Success saving image to {}".format(image_path_file))
+                print("[INFO]: Success adding data image to {}".format(image_path_file))
             else:
-                print("[INFO]: Failed saving image to {}".format(image_path_file))
+                print("[INFO]: Failed adding data image to {}".format(image_path_file))
     data_image = pd.DataFrame({
         "path": path_image,
         "x": x,
@@ -101,7 +101,7 @@ def main():
     })
 
     save_path = os.path.join(path, "bounding")
-    data_image.to_csv(f"{save_path}/dataset.csv", index=True)
+    data_image.to_csv(f"{save_path}/dataset.csv", index=False)
     print("[INFO]: Saving CSV to {}/dataset.csv".format(save_path))
 
 
