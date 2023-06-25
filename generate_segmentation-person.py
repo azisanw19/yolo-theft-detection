@@ -61,24 +61,19 @@ def main():
 
     is_exist_folder_bounding = os.path.exists(os.path.join(path, "bounding"))
     if not is_exist_folder_bounding:
-        os.makedirs("dataset/bounding/theft")
-        os.makedirs("dataset/bounding/guest")
+        os.makedirs("dataset/bounding")
 
-    print(path)
+
+    path_image = []
+    x = []
+    y = []
+    w = []
+    h = []
+    target_label = []
 
     for folder in os.listdir(os.path.join(path, "original")):
         image_path = os.path.join(path, "original")
         image_path = os.path.join(image_path, folder)
-
-        save_path = os.path.join(path, "bounding")
-        save_path = os.path.join(save_path, folder)
-
-        path_image = []
-        x = []
-        y = []
-        w = []
-        h = []
-        target_label = []
 
         for image in os.listdir(image_path):
             image_path_file = os.path.join(image_path, image)
@@ -96,18 +91,18 @@ def main():
                 print("[INFO]: Success saving image to {}".format(image_path_file))
             else:
                 print("[INFO]: Failed saving image to {}".format(image_path_file))
+    data_image = pd.DataFrame({
+        "path": path_image,
+        "x": x,
+        "y": y,
+        "w": w,
+        "h": h,
+        "label": target_label
+    })
 
-        data_image = pd.DataFrame({
-            "path": path_image,
-            "x": x,
-            "y": y,
-            "w": w,
-            "h": h,
-            "label": target_label
-        })
-
-        data_image.to_csv(f"{save_path}/{folder}.csv", index=True)
-        print("[INFO]: Saving CSV to {}/{}.csv".format(save_path, folder))
+    save_path = os.path.join(path, "bounding")
+    data_image.to_csv(f"{save_path}/dataset.csv", index=True)
+    print("[INFO]: Saving CSV to {}/dataset.csv".format(save_path))
 
 
 if __name__ == '__main__':
