@@ -11,6 +11,7 @@ __pycache__
 
 # ignore train model
 model/*.h5
+model/*.pickle
 
 # C extensions
 *.so
