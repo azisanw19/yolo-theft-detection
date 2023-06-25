@@ -1,5 +1,5 @@
 """
-Generate images to get person segmentation in images
+Generate images to get person Bounding in images
 
 __author__      = "Aziz Anwar"
 __copyright__   = "Copyright 2023, Canwar"
