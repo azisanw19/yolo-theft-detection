@@ -9,6 +9,8 @@ delete
 output
 __pycache__
 
+# ignore train model
+model/*.h5
 
 # C extensions
 *.so
