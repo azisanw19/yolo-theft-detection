@@ -90,8 +90,7 @@ def live_transmission():
     live transmission
     :return:
     """
-    url = "http://192.168.1.9:4747/video"
-    cam = cv2.VideoCapture(url)
+    cam = cv2.VideoCapture(config.URL)
 
     bot = telegram.Bot(config.TOKEN)
     chat_group_id = config.CHAT_GROUP_ID

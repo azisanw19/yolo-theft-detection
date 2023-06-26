@@ -13,7 +13,7 @@ __pycache__
 model/*.h5
 model/*.pickle
 image
-config.py
+#config.py
 
 # C extensions
 *.so
