@@ -116,32 +116,32 @@ def live_transmission():
 
                 label = model_theft.predict(person_resize)
                 result = encoding.inverse_transform(label)
-                if result == "theft":
-                    cv2.rectangle(img, (x, y), (x + w, y + h), color=(255, 0, 0), thickness=2)
-                    cv2.putText(img, "Detected {}".format(result[0][0]), (x + 5, y - 5),
-                                cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 0),
-                                thickness=2)
-                    asyncio.get_event_loop().run_until_complete(
-                        send_image(
-                            bot,
-                            chat_id=chat_group_id,
-                            img=img,
-                            caption="Alert! Theft detected at {}! ".format(datetime.datetime.now())
-                        )
+            if result == "theft":
+                cv2.rectangle(img, (x, y), (x + w, y + h), color=(255, 0, 0), thickness=2)
+                cv2.putText(img, "Detected {}".format(result[0][0]), (x + 5, y - 5),
+                            cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 0),
+                            thickness=2)
+                asyncio.get_event_loop().run_until_complete(
+                    send_image(
+                        bot,
+                        chat_id=chat_group_id,
+                        img=img,
+                        caption="Alert! Theft detected at {}! ".format(datetime.datetime.now())
                     )
-                else:
-                    cv2.rectangle(img, (x, y), (x + w, y + h), color=(0, 255, 0), thickness=2)
-                    cv2.putText(img, "Detected {}".format(result[0][0]), (x + 5, y - 5),
-                                cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 0),
-                                thickness=2)
-                    asyncio.get_event_loop().run_until_complete(
-                        send_image(
-                            bot,
-                            chat_id=chat_group_id,
-                            img=img,
-                            caption="Guest detected at {}! ".format(datetime.datetime.now())
-                        )
+                )
+            else:
+                cv2.rectangle(img, (x, y), (x + w, y + h), color=(0, 255, 0), thickness=2)
+                cv2.putText(img, "Detected {}".format(result[0][0]), (x + 5, y - 5),
+                            cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 0),
+                            thickness=2)
+                asyncio.get_event_loop().run_until_complete(
+                    send_image(
+                        bot,
+                        chat_id=chat_group_id,
+                        img=img,
+                        caption="Guest detected at {}! ".format(datetime.datetime.now())
                     )
+                )
 
         count += 1
         # live window
