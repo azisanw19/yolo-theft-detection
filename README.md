@@ -1,4 +1,4 @@
-# You Only Look Once Theft Detection
+# Mobile Net Theft Detection
 
 ## Steps
 
